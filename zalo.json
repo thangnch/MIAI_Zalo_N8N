@@ -1,0 +1,274 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-zalo-user-v2.zaloUserLogin",
+      "typeVersion": 3,
+      "position": [
+        -500,
+        -60
+      ],
+      "id": "668b3eb7-6128-490f-aff8-e3f038a42b21",
+      "name": "Zalo Login Via QR Code",
+      "credentials": {
+        "n8nApi": {
+          "id": "07bvRdMuXjNlIue9",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-zalo-user-v2.zaloUser",
+      "typeVersion": 2,
+      "position": [
+        -300,
+        -20
+      ],
+      "id": "ea59f3dc-b223-4a99-b328-a776ddc09b68",
+      "name": "Zalo User Trigger",
+      "credentials": {
+        "zaloUserCredentialsApi": {
+          "id": "Q8W3f6PpcpE96uBn",
+          "name": "Zalo Vic Nguyen +84888624633 - 2025-06-15T03:25:23.473Z"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "threadId": "={{ $json.data.uidFrom }}",
+        "message": "=Cảm ơn bạn rất nhiều. Có phải nội dung bạn gửi là {{ $json.data.content }}"
+      },
+      "type": "n8n-nodes-zalo-user-v2.zaloUserInteract",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -20
+      ],
+      "id": "fafe635f-5dc0-44c3-9d3a-19524fc2c512",
+      "name": "Zalo User Interact",
+      "credentials": {
+        "zaloUserCredentialsApi": {
+          "id": "Q8W3f6PpcpE96uBn",
+          "name": "Zalo Vic Nguyen +84888624633 - 2025-06-15T03:25:23.473Z"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendStickerMessage",
+        "threadId": "={{ $('Zalo User Trigger').item.json.data.uidFrom }}",
+        "stickerKeywords": "huhu"
+      },
+      "type": "n8n-nodes-zalo-user-v2.zaloUserInteract",
+      "typeVersion": 1,
+      "position": [
+        140,
+        -20
+      ],
+      "id": "5c04ea89-c509-40b7-90e7-3af11ec48d02",
+      "name": "Zalo User Interact1",
+      "credentials": {
+        "zaloUserCredentialsApi": {
+          "id": "Q8W3f6PpcpE96uBn",
+          "name": "Zalo Vic Nguyen +84888624633 - 2025-06-15T03:25:23.473Z"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "get",
+        "operation": "getUserInfo",
+        "userId": "={{ $('Zalo User Trigger').item.json.data.uidFrom }}"
+      },
+      "type": "n8n-nodes-zalo-user-v2.zaloUserInteract",
+      "typeVersion": 1,
+      "position": [
+        360,
+        -20
+      ],
+      "id": "3686b476-4e38-4866-ba97-9594853a87a2",
+      "name": "Zalo User Interact2",
+      "credentials": {
+        "zaloUserCredentialsApi": {
+          "id": "Q8W3f6PpcpE96uBn",
+          "name": "Zalo Vic Nguyen +84888624633 - 2025-06-15T03:25:23.473Z"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Edit Fields').item.json.filePath }}",
+        "options": {
+          "append": false
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        560,
+        120
+      ],
+      "id": "cfb8c3ae-2feb-49d9-b476-d8c0342e30e6",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "849de015-ae13-4a74-a96b-1b7da0dd4ce6",
+              "name": "filePath",
+              "value": "=/home/node/{{ Date.now() }}.mp3",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        120,
+        180
+      ],
+      "id": "61280714-93d2-4cc8-b65f-c69e328c7613",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "tool",
+        "operation": "createTTS",
+        "text": "Cảm ơn các bạn đã gửi tin cho tôi."
+      },
+      "type": "n8n-nodes-zalo-user-v2.zaloUserInteract",
+      "typeVersion": 1,
+      "position": [
+        340,
+        180
+      ],
+      "id": "cefb4ec3-3656-4205-a831-d3bbbc41522f",
+      "name": "Zalo User Interact3",
+      "credentials": {
+        "zaloUserCredentialsApi": {
+          "id": "Q8W3f6PpcpE96uBn",
+          "name": "Zalo Vic Nguyen +84888624633 - 2025-06-15T03:25:23.473Z"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "threadId": "={{ $('Zalo User Trigger').item.json.data.uidFrom }}",
+        "attachmentsUrls": "={{ $('Edit Fields').item.json.filePath }}"
+      },
+      "type": "n8n-nodes-zalo-user-v2.zaloUserInteract",
+      "typeVersion": 1,
+      "position": [
+        780,
+        120
+      ],
+      "id": "f767f7dd-a2d2-4685-9238-1b728ea0e26e",
+      "name": "Zalo User Interact4",
+      "alwaysOutputData": true,
+      "credentials": {
+        "zaloUserCredentialsApi": {
+          "id": "Q8W3f6PpcpE96uBn",
+          "name": "Zalo Vic Nguyen +84888624633 - 2025-06-15T03:25:23.473Z"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Zalo User Trigger": {
+      "main": [
+        [
+          {
+            "node": "Zalo User Interact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zalo User Interact": {
+      "main": [
+        [
+          {
+            "node": "Zalo User Interact1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zalo User Interact1": {
+      "main": [
+        [
+          {
+            "node": "Zalo User Interact2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zalo User Interact2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Zalo User Interact4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Zalo User Interact3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zalo User Interact3": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a87404f4-8711-47b1-9710-8ca675668582",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c4397ad13dbc3b52a10d5acc56d504021088583c2ddb1cb6455b76ac3b2a667c"
+  },
+  "id": "YoSMAtBMKv7zAllN",
+  "tags": []
+}

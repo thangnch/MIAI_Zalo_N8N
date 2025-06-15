@@ -1,0 +1,179 @@
+{
+  "name": "tts",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        160,
+        20
+      ],
+      "id": "d81ab6f5-f4f5-40fd-a6bf-5af2d6b6fbc0",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "tool",
+        "operation": "createTTS"
+      },
+      "type": "n8n-nodes-zalo-user-v2.zaloUserInteract",
+      "typeVersion": 1,
+      "position": [
+        600,
+        20
+      ],
+      "id": "3146d6d4-c8ef-485c-b83c-0fad1b9c008e",
+      "name": "Zalo User Interact",
+      "credentials": {
+        "zaloUserCredentialsApi": {
+          "id": "5CTq4OOvuABoBGZS",
+          "name": "Zalo Thành Ai +84896464343 - 2025-06-10T14:17:20.596Z"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Edit Fields').item.json.filePath }}",
+        "options": {
+          "append": false
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        820,
+        20
+      ],
+      "id": "915549c4-789f-4c53-b240-06afd94bf509",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "849de015-ae13-4a74-a96b-1b7da0dd4ce6",
+              "name": "filePath",
+              "value": "=/home/node/{{ Date.now() }}.mp3",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        380,
+        20
+      ],
+      "id": "39308caa-c796-481b-a34a-cb1af03e93b1",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "threadId": "thayid vao day",
+        "attachmentsUrls": "={{ $('Edit Fields').item.json.filePath }}"
+      },
+      "type": "n8n-nodes-zalo-user-v2.zaloUserInteract",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        20
+      ],
+      "id": "deb7fa1d-65e6-4ff3-af2c-01eaf72e1d35",
+      "name": "Zalo User Interact1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "zaloUserCredentialsApi": {
+          "id": "5CTq4OOvuABoBGZS",
+          "name": "Zalo Thành Ai +84896464343 - 2025-06-10T14:17:20.596Z"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "=rm {{ $('Edit Fields').item.json.filePath }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        20
+      ],
+      "id": "d9c5e590-f319-4e48-a561-612653cd843a",
+      "name": "Execute Command"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zalo User Interact": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Zalo User Interact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Zalo User Interact1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zalo User Interact1": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "90da7e34-4d5e-478a-8804-3c0c213aa438",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bbf85f6bf60f4f428f9bb800a84af65104d12b54938b900d8e31b5ec5fa02d99"
+  },
+  "id": "rq0upodlfSCcIyL3",
+  "tags": []
+}
